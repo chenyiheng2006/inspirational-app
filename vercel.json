@@ -1,4 +1,7 @@
 {
+  "buildCommand": "cd webapp && npm run build",
+  "outputDirectory": "webapp/build",
+  "installCommand": "cd webapp && npm install",
   "rewrites": [
     {
       "source": "/(.*)",
