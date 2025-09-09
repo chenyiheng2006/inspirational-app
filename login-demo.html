@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录注册演示 - 励志软件</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', '微软雅黑', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            animation: slideInUp 0.6s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .app-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .app-subtitle {
+            color: #666;
+            text-align: center;
+            margin-bottom: 30px;
+            opacity: 0.8;
+        }
+
+        .tab-switcher {
+            display: flex;
+            background: #f5f5f5;
+            border-radius: 15px;
+            padding: 5px;
+            margin-bottom: 25px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            background: none;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #666;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .register-type-switcher {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .type-btn {
+            flex: 1;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #495057;
+        }
+
+        .type-btn.active {
+            background: rgba(102, 126, 234, 0.1);
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #fff;
+            outline: none;
+        }
+
+        .form-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .verification-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .verification-input {
+            flex: 1;
+        }
+
+        .verification-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 12px;
+            font-size: 14px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .demo-note {
+            background: rgba(102, 126, 234, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+            color: #667eea;
+            font-size: 14px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .success-screen {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: bounce 1s ease infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .login-container {
+                padding: 30px 25px;
+            }
+            
+            .app-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <!-- 登录注册表单 -->
+        <div id="loginForm">
+            <h1 class="app-title">🌟 励志软件</h1>
+            <p class="app-subtitle">让每一天都充满正能量</p>
+
+            <div class="tab-switcher">
+                <button class="tab-btn active" onclick="switchTab('login')">登录</button>
+                <button class="tab-btn" onclick="switchTab('register')">注册</button>
+            </div>
+
+            <div class="register-type-switcher">
+                <button class="type-btn active" onclick="switchType('email')">📧 邮箱</button>
+                <button class="type-btn" onclick="switchType('phone')">📱 手机</button>
+            </div>
+
+            <form id="authForm">
+                <div class="form-group">
+                    <input type="email" class="form-input" id="emailInput" placeholder="请输入邮箱地址" required>
+                    <input type="tel" class="form-input hidden" id="phoneInput" placeholder="请输入手机号" required>
+                </div>
+
+                <div class="form-group">
+                    <input type="password" class="form-input" placeholder="请输入密码" required>
+                </div>
+
+                <div class="form-group hidden" id="registerFields">
+                    <input type="password" class="form-input" placeholder="请确认密码" required>
+                    <div style="margin-top: 20px;">
+                        <input type="text" class="form-input" placeholder="请输入昵称" required>
+                    </div>
+                    <div class="verification-group" style="margin-top: 20px;">
+                        <input type="text" class="form-input verification-input" placeholder="请输入验证码" required>
+                        <button type="button" class="verification-btn" onclick="sendCode()">获取验证码</button>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">立即登录</button>
+            </form>
+
+            <div class="demo-note">
+                <strong>演示说明：</strong>这是登录注册功能的演示页面。<br>
+                在真实应用中，验证码会发送到您的邮箱或手机，注册成功后会直接进入主界面。
+            </div>
+        </div>
+
+        <!-- 成功页面 -->
+        <div id="successScreen" class="hidden">
+            <div class="success-screen">
+                <div class="success-icon">🎉</div>
+                <h2 style="color: #667eea; margin-bottom: 15px;">登录成功！</h2>
+                <p style="color: #666; margin-bottom: 30px;">欢迎使用励志软件，开始你的正能量之旅吧！</p>
+                <button class="submit-btn" onclick="goToMainApp()" style="max-width: 200px;">进入主界面</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isLogin = true;
+        let registerType = 'email';
+
+        function switchTab(type) {
+            isLogin = type === 'login';
+            
+            // 更新标签按钮样式
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // 显示/隐藏注册字段
+            const registerFields = document.getElementById('registerFields');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            if (isLogin) {
+                registerFields.classList.add('hidden');
+                submitBtn.textContent = '立即登录';
+            } else {
+                registerFields.classList.remove('hidden');
+                submitBtn.textContent = '注册并登录';
+            }
+        }
+
+        function switchType(type) {
+            registerType = type;
+            
+            // 更新类型按钮样式
+            document.querySelectorAll('.type-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // 切换输入框
+            const emailInput = document.getElementById('emailInput');
+            const phoneInput = document.getElementById('phoneInput');
+            
+            if (type === 'email') {
+                emailInput.classList.remove('hidden');
+                phoneInput.classList.add('hidden');
+                emailInput.required = true;
+                phoneInput.required = false;
+            } else {
+                emailInput.classList.add('hidden');
+                phoneInput.classList.remove('hidden');
+                emailInput.required = false;
+                phoneInput.required = true;
+            }
+        }
+
+        function sendCode() {
+            const btn = event.target;
+            const contact = registerType === 'email' ? 
+                document.getElementById('emailInput').value :
+                document.getElementById('phoneInput').value;
+            
+            if (!contact) {
+                alert(`请先输入${registerType === 'email' ? '邮箱' : '手机号'}`);
+                return;
+            }
+
+            // 模拟发送验证码
+            btn.disabled = true;
+            let countdown = 60;
+            btn.textContent = `${countdown}s`;
+            
+            const timer = setInterval(() => {
+                countdown--;
+                btn.textContent = `${countdown}s`;
+                
+                if (countdown <= 0) {
+                    clearInterval(timer);
+                    btn.disabled = false;
+                    btn.textContent = '获取验证码';
+                }
+            }, 1000);
+
+            setTimeout(() => {
+                alert(`验证码已发送${registerType === 'email' ? '到邮箱' : '到手机'}：123456`);
+            }, 1000);
+        }
+
+        // 表单提交
+        document.getElementById('authForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // 简单验证
+            const inputs = this.querySelectorAll('input[required]:not(.hidden)');
+            let isValid = true;
+            
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    isValid = false;
+                    input.style.borderColor = '#dc3545';
+                } else {
+                    input.style.borderColor = '#e9ecef';
+                }
+            });
+
+            if (!isValid) {
+                alert('请填写完整信息');
+                return;
+            }
+
+            // 显示加载状态
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = '处理中...';
+            submitBtn.disabled = true;
+
+            // 模拟登录/注册过程
+            setTimeout(() => {
+                document.getElementById('loginForm').classList.add('hidden');
+                document.getElementById('successScreen').classList.remove('hidden');
+            }, 1500);
+        });
+
+        function goToMainApp() {
+            alert('在真实应用中，这里会跳转到主界面！\n\n完整功能包括：\n• 启动画面\n• 备忘录管理\n• 听风说雨社交\n• 找搭子聊天\n• 个人设置\n• 积分系统');
+        }
+
+        // 清除错误样式
+        document.addEventListener('input', function(e) {
+            if (e.target.classList.contains('form-input')) {
+                e.target.style.borderColor = '#e9ecef';
+            }
+        });
+    </script>
+</body>
+</html>

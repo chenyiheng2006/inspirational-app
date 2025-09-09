@@ -1,0 +1,246 @@
+.memo-interface {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* 头部样式 */
+.memo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.memo-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.back-btn, .add-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  font-size: 14px;
+}
+
+.back-btn:hover, .add-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* 主内容区域 */
+.memo-content {
+  padding: 20px;
+}
+
+.memo-section {
+  margin-bottom: 30px;
+}
+
+.memo-section h2 {
+  color: white;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* 备忘录列表 */
+.memo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.memo-item {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: move;
+}
+
+.memo-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.memo-item.completed {
+  opacity: 0.7;
+  background: rgba(200, 200, 200, 0.9);
+  cursor: default;
+}
+
+.memo-item.completed .memo-text {
+  text-decoration: line-through;
+  color: #888;
+}
+
+/* 复选框样式 */
+.memo-checkbox input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: #667eea;
+  cursor: pointer;
+}
+
+/* 备忘录文本 */
+.memo-text {
+  flex: 1;
+  font-size: 16px;
+  line-height: 1.4;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+}
+
+.memo-text:hover {
+  background: rgba(102, 126, 234, 0.1);
+}
+
+/* 操作按钮 */
+.memo-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.edit-btn, .delete-btn {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+}
+
+.edit-btn:hover {
+  background: rgba(102, 126, 234, 0.2);
+}
+
+.delete-btn:hover {
+  background: rgba(244, 67, 54, 0.2);
+}
+
+/* 空状态 */
+.empty-state {
+  text-align: center;
+  color: white;
+  padding: 60px 20px;
+}
+
+.empty-icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  opacity: 0.7;
+}
+
+.empty-state h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.empty-state p {
+  opacity: 0.8;
+  line-height: 1.6;
+}
+
+/* 模态框特定样式 */
+.modal h3 {
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 1.3rem;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.cancel-btn {
+  background: #ddd;
+  color: #333;
+}
+
+.cancel-btn:hover {
+  background: #ccc;
+}
+
+.save-btn {
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  color: white;
+}
+
+.save-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.save-btn:disabled:hover {
+  transform: none;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* 拖拽样式 */
+.memo-item[draggable="true"]:active {
+  opacity: 0.8;
+  transform: rotate(2deg);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .memo-content {
+    padding: 15px;
+  }
+  
+  .memo-item {
+    padding: 12px;
+  }
+  
+  .memo-text {
+    font-size: 14px;
+  }
+  
+  .memo-header {
+    padding: 12px 15px;
+  }
+  
+  .memo-header h1 {
+    font-size: 1.3rem;
+  }
+  
+  .back-btn, .add-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .memo-actions {
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .edit-btn, .delete-btn {
+    font-size: 14px;
+  }
+  
+  .modal {
+    margin: 10px;
+    max-width: calc(100% - 20px);
+  }
+}
